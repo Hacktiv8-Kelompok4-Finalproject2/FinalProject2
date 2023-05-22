@@ -1,13 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Card from '../Card/Card';
 
 function CartPages() {
   const cartItems = useSelector((state) => state.addToCartReducer.cartItems);
+  console.log(cartItems);
 
-  const updateQuantity = (productId, quantity) => {
-    // Dispatch an action to update the quantity of the specified product in the cart
-    // You can implement this functionality based on your specific Redux setup
+  const getCountByItemId = (itemId) => {
+    return cartItems.reduce((count, item) => {
+      if (item.id === itemId) {
+        return count + item.quantity;
+      }
+      return count;
+    }, 0);
   };
 
   return (
@@ -17,12 +21,12 @@ function CartPages() {
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          cartItems.map((item) => (
-            <Card
-              key={item.id}
-              product={item}
-              updateQuantity={updateQuantity}
-            />
+          cartItems.map((item, index) => (
+            <div key={`${item.id}-${index}`}>
+              <p>Item ID: {item.id}</p>
+              <p>Quantity: {getCountByItemId(item.id)}</p>
+              {/* Render other details of the item */}
+            </div>
           ))
         )}
       </div>

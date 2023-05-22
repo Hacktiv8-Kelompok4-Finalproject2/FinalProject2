@@ -22,11 +22,11 @@ function Navbar() {
             </Link>
             {isLoggedIn ? (
               <>
-                <Link to="/logout" onClick={scrollToTop}>
-                  <div className="mx-4">Logout</div>
-                </Link>
                 <Link to="/cart" onClick={scrollToTop}>
                   <div className="mx-4">Cart</div>
+                </Link>
+                <Link to="/logout" onClick={scrollToTop}>
+                  <div className="mx-4">Logout</div>
                 </Link>
               </>
             ) : (
