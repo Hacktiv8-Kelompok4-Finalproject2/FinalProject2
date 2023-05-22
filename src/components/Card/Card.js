@@ -6,11 +6,15 @@ const Card = ({ product, addToCart, isLoggedIn }) => {
 
   const handleAddToCart = () => {
     if (isLoggedIn) {
-      addToCart(product);
+      addToCart({ ...product, quantity: 1 });
     } else {
       // Navigate to the login page
       navigate('/login'); // Replace '/login' with the actual route to your login page
     }
+  };
+
+  const handleProductDetail = () => {
+    navigate(`/product-details/${product.id}`); // Replace '/product-details' with the actual route to your ProductDetails page
   };
 
   const truncateDescription = (description, wordLimit) => {
@@ -41,7 +45,12 @@ const Card = ({ product, addToCart, isLoggedIn }) => {
         {truncateDescription(product.description, 8)}
       </h1>
       <div className="flex h-[60px] text-[11px]">
-        <button className="mx-2 p-2 h-[30px]  border-2">Detail</button>
+        <button
+          onClick={handleProductDetail}
+          className="mx-2 p-2 h-[30px]  border-2"
+        >
+          Detail
+        </button>
         <button
           onClick={handleAddToCart}
           className="mx-2 p-2 h-[30px] border-2"
