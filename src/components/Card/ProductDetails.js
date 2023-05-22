@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../Store/productReducer';
 import { addToCart } from '../Store/addToCartReducer';
 
 const ProductDetails = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { productId } = useParams();
   const products = useSelector((state) => state.productReducer.products);
+  const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn);
+  const cartItems = useSelector((state) => state.addToCartReducer.cartItems);
   const [quantity, setQuantity] = useState(1);
 
   const product = products.find(
@@ -19,7 +23,22 @@ const ProductDetails = () => {
   }, [dispatch]);
 
   const handleUpdateQuantity = () => {
-    dispatch(addToCart({ productId: parseInt(productId), quantity }));
+    if (isLoggedIn) {
+      const existingItem = cartItems.find(
+        (item) => item.id === parseInt(productId)
+      );
+      const itemQuantity = existingItem ? existingItem.quantity : 0;
+      const parsedQuantity = parseInt(quantity);
+      const updatedQuantity = isNaN(parsedQuantity) ? 0 : parsedQuantity;
+      dispatch(
+        addToCart({
+          id: parseInt(productId),
+          quantity: updatedQuantity + itemQuantity,
+        })
+      );
+    } else {
+      navigate('/login');
+    }
   };
 
   if (!product) {
