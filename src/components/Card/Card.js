@@ -7,9 +7,11 @@ const Card = ({ product, addToCart, isLoggedIn }) => {
   const handleAddToCart = () => {
     if (isLoggedIn) {
       addToCart({ ...product, quantity: 1 });
+      console.log(isLoggedIn);
     } else {
       // Navigate to the login page
       navigate('/login'); // Replace '/login' with the actual route to your login page
+      console.log('not looffin');
     }
   };
 

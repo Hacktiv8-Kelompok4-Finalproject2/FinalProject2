@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../Store/authReducer';
 import { useNavigate } from 'react-router-dom';
+import { logoutSuccess } from '../Store/loginReducer';
 
 function LogoutPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logoutSuccess());
     navigate('/');
   };
 

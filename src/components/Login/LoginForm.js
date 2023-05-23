@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// LoginForm.js
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../Store/loginReducer';
 import { useNavigate } from 'react-router-dom';
@@ -6,22 +7,31 @@ import { useNavigate } from 'react-router-dom';
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loginError = useSelector((state) => state.login && state.login.error);
+  const [loginError, setLoginError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn); // Access the loggedIn state from loginReducer
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/home');
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     dispatch(login(username, password))
       .then(() => {
-        // Dispatch the LOGIN_USER action after successful login
         dispatch({ type: 'LOGIN_USER' });
-        // Navigate to HomePages
-        navigate('/');
+
+        if (isLoggedIn) {
+          navigate('/home');
+        } else {
+          setLoginError(true);
+        }
       })
-      .catch((error) => {
-        console.log('Login error:', error);
-      });
+      .catch((error) => {});
   };
 
   return (
@@ -51,8 +61,10 @@ function LoginForm() {
           </div>
           <button type="submit">Submit</button>
         </form>
-        {loginError && <p>{loginError}</p>}
-      </div>{' '}
+        {loginError && (
+          <p className=" text-red-500">Incorrect username or password.</p>
+        )}{' '}
+      </div>
     </div>
   );
 }
