@@ -15,21 +15,21 @@ const initialState = {
 };
 
 // Action creators
-const loginRequest = () => ({
+export const loginRequest = () => ({
   type: LOGIN_REQUEST,
 });
 
-const loginSuccess = (user) => ({
+export const loginSuccess = (user) => ({
   type: LOGIN_SUCCESS,
   payload: user,
 });
 
-const loginFailure = (error) => ({
+export const loginFailure = (error) => ({
   type: LOGIN_FAILURE,
   payload: error,
 });
 
-const logoutSuccess = () => ({
+export const logoutSuccess = () => ({
   type: LOGOUT_SUCCESS,
 });
 
