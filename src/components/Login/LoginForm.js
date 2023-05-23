@@ -10,6 +10,9 @@ function LoginForm() {
   const [loginError, setLoginError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const isAdmin = useSelector(
+    (state) => state.loginReducer.user && state.loginReducer.user.isAdmin
+  );
   const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn); // Access the loggedIn state from loginReducer
 
   useEffect(() => {
@@ -26,7 +29,11 @@ function LoginForm() {
         dispatch({ type: 'LOGIN_USER' });
 
         if (isLoggedIn) {
-          navigate('/home');
+          if (isAdmin) {
+            navigate('/admin');
+          } else {
+            navigate('/home');
+          }
         } else {
           setLoginError(true);
         }

@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Navbar() {
-  const isLoggedIn = useSelector((state) => state.loginReducer.loggedIn); // Access the loggedIn state from loginReducer
+  const isAdmin = useSelector(
+    (state) => state.loginReducer.user && state.loginReducer.user.isAdmin
+  );
+  const isLoggedIn =
+    useSelector((state) => state.loginReducer.loggedIn) && !isAdmin; // Access the loggedIn state from loginReducer
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -17,10 +21,12 @@ function Navbar() {
             <Link to="/" onClick={scrollToTop}>
               <div className="mx-4">JualAjah!</div>
             </Link>
-            <Link to="/" onClick={scrollToTop}>
-              <div className="mx-4">Home</div>
-            </Link>
-            {isLoggedIn ? (
+            {!isAdmin && (
+              <Link to="/" onClick={scrollToTop}>
+                <div className="mx-4">Home</div>
+              </Link>
+            )}
+            {isLoggedIn && (
               <>
                 <Link to="/cart" onClick={scrollToTop}>
                   <div className="mx-4">Cart</div>
@@ -29,10 +35,26 @@ function Navbar() {
                   <div className="mx-4">Logout</div>
                 </Link>
               </>
-            ) : (
-              <Link to="/login" onClick={scrollToTop}>
-                <div className="mx-4">Login</div>
-              </Link>
+            )}
+            {isAdmin && (
+              <>
+                <Link to="/admin" onClick={scrollToTop}>
+                  <div className="mx-4">Admin</div>
+                </Link>
+                <Link to="/report" onClick={scrollToTop}>
+                  <div className="mx-4">Rekap Penjualan</div>
+                </Link>
+                <Link to="/logout" onClick={scrollToTop}>
+                  <div className="mx-4">Logout</div>
+                </Link>
+              </>
+            )}
+            {!isAdmin && !isLoggedIn && (
+              <>
+                <Link to="/login" onClick={scrollToTop}>
+                  <div className="mx-4">Login</div>
+                </Link>
+              </>
             )}
           </nav>
         </div>
