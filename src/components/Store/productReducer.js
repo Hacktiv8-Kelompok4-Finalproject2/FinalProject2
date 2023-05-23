@@ -31,10 +31,15 @@ const fetchProductsFailure = (error) => ({
   payload: error,
 });
 
-const updateStoreQuantity = (itemId, storeQuantity) => ({
-  type: UPDATE_STORE_QUANTITY,
-  payload: { itemId, storeQuantity },
-});
+const updateStoreQuantity = (itemId, storeQuantity) => {
+  // Save the updated storeQuantity in localStorage
+  localStorage.setItem(`storeQuantity_${itemId}`, storeQuantity);
+
+  return {
+    type: UPDATE_STORE_QUANTITY,
+    payload: { itemId, storeQuantity },
+  };
+};
 
 // Reducer
 const productReducer = (state = initialState, action) => {
@@ -99,11 +104,12 @@ export const fetchProducts = () => {
       .then((response) => {
         const products = response.data.map((product) => ({
           ...product,
-          storeQuantity: 5,
+          storeQuantity:
+            parseInt(localStorage.getItem(`storeQuantity_${product.id}`)) || 5,
         }));
         dispatch(fetchProductsSuccess(products));
 
-        // Update storeQuantity for fetched products
+        // Update storeQuantity for fetched products and store in localStorage
         products.forEach((product) => {
           dispatch(updateStoreQuantity(product.id, product.storeQuantity));
         });

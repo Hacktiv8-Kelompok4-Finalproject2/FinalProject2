@@ -7,6 +7,8 @@ import LogoutPage from './components/Login/LogoutPage';
 import Navbar from './components/Navbar/Navbar';
 import CartPages from './components/Pages/CartPages';
 import ProductDetails from './components/Card/ProductDetails';
+import AdminPages from './components/Pages/AdminPages';
+import ReportPages from './components/Pages/ReportPages';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/cart" element={<CartPages />} />
+          <Route path="/admin" element={<AdminPages />} />
+          <Route path="/report" element={<ReportPages />} />
           <Route
             path="/product-details/:productId"
             element={<ProductDetails />}

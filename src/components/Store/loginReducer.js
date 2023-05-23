@@ -48,11 +48,20 @@ export const login = (username, password) => {
       const response = await axios.get('https://fakestoreapi.com/users');
 
       // Find the user with the provided username and password
-      const user = response.data.find(
-        (user) => user.username === username && user.password === password
-      );
+      const user = response.data.find((user) => {
+        return (
+          (user.username === username && user.password === password) ||
+          (username === 'admin@jualajah.com' && password === 'admin123')
+        );
+      });
 
       if (user) {
+        // Check if the user is an admin
+        if (username === 'admin@jualajah.com' && password === 'admin123') {
+          // Make the user an admin
+          user.isAdmin = true;
+        }
+
         // Login successful
         dispatch(loginSuccess(user));
         localStorage.setItem(USER_KEY, JSON.stringify(user));
