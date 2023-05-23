@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../Store/productReducer'; // Import the productReducer and fetchProducts action
-import { addToCart } from '../Store/addToCartReducer'; // Import the addToCart action
+import { addToCart } from '../Store/cartReducer'; // Import the addToCart action
 import Card from '../Card/Card';
 
 function HomePages() {

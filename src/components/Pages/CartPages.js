@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateQuantity } from '../Store/addToCartReducer';
+import { updateQuantity } from '../Store/cartReducer';
 
 function CartPages() {
   const cartItems = useSelector((state) => state.addToCartReducer.cartItems);

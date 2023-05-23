@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../Store/productReducer';
-import { addToCart } from '../Store/addToCartReducer';
+import { addToCart } from '../Store/cartReducer';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
