@@ -1,11 +1,12 @@
-// Redux.js
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY';
-const FETCH_CART_DATA = 'FETCH_CART_DATA';
+const CHECKOUT = 'CHECKOUT';
 
 const initialState = {
   cartItems: [],
+  isAdmin: false,
+  storeQuantity: 10,
 };
 
 const addToCart = (product) => ({
@@ -18,26 +19,14 @@ const removeFromCart = (productId) => ({
   payload: productId,
 });
 
-const updateQuantity = (itemId, newQuantity) => ({
+const updateQuantity = (itemId, newQuantity, isAdmin) => ({
   type: UPDATE_QUANTITY,
-  payload: { itemId, newQuantity },
+  payload: { itemId, newQuantity, isAdmin },
 });
 
-const fetchCartData = () => {
-  return (dispatch) => {
-    fetch('https://fakestoreapi.com/carts')
-      .then((res) => res.json())
-      .then((json) => {
-        dispatch({
-          type: FETCH_CART_DATA,
-          payload: json,
-        });
-      })
-      .catch((error) => {
-        console.log('Error fetching cart data:', error);
-      });
-  };
-};
+const checkout = () => ({
+  type: CHECKOUT,
+});
 
 const addToCartReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -74,24 +63,49 @@ const addToCartReducer = (state = initialState, action) => {
       const updatedItemIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.itemId
       );
+
       if (updatedItemIndex !== -1) {
-        // If the item exists in the cart, update the quantity
-        const updatedCartItems = [...state.cartItems];
-        updatedCartItems[updatedItemIndex] = {
-          ...updatedCartItems[updatedItemIndex],
-          quantity: action.payload.newQuantity,
-        };
+        const isAdmin = action.payload.isAdmin;
+        let updatedCartItems = [...state.cartItems];
+
+        if (isAdmin) {
+          // If the user is an admin, directly update the storeQuantity
+          updatedCartItems[updatedItemIndex] = {
+            ...updatedCartItems[updatedItemIndex],
+            quantity: action.payload.newQuantity,
+          };
+        } else {
+          // If the user is not an admin, reduce the quantity during checkout
+          const currentQuantity = updatedCartItems[updatedItemIndex].quantity;
+          const newQuantity = currentQuantity - action.payload.newQuantity;
+          updatedCartItems[updatedItemIndex] = {
+            ...updatedCartItems[updatedItemIndex],
+            quantity: newQuantity >= 0 ? newQuantity : 0,
+          };
+        }
+
         return {
           ...state,
           cartItems: updatedCartItems,
         };
       }
       return state;
-    case FETCH_CART_DATA:
+
+    case CHECKOUT:
+      const totalQuantity = state.cartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      const updatedStoreQuantity = state.storeQuantity - totalQuantity;
+      const newStoreQuantity =
+        updatedStoreQuantity >= 0 ? updatedStoreQuantity : 0;
+
       return {
         ...state,
-        cartItems: action.payload,
+        cartItems: [],
+        storeQuantity: newStoreQuantity,
       };
+
     default:
       return state;
   }
@@ -101,6 +115,6 @@ export {
   addToCart,
   removeFromCart,
   updateQuantity,
-  fetchCartData,
+  checkout,
   addToCartReducer,
 };

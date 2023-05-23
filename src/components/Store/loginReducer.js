@@ -6,11 +6,16 @@ const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'LOGIN_FAILURE';
 const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
+// LocalStorage keys
+const USER_KEY = 'user';
+
 // Initial state
+const storedUser = JSON.parse(localStorage.getItem(USER_KEY));
+
 const initialState = {
   loading: false,
-  loggedIn: false,
-  user: null,
+  loggedIn: storedUser ? true : false,
+  user: storedUser || null,
   error: null,
 };
 
@@ -50,6 +55,7 @@ export const login = (username, password) => {
       if (user) {
         // Login successful
         dispatch(loginSuccess(user));
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
       } else {
         // Login failed
         dispatch(loginFailure('Invalid username or password'));
@@ -86,6 +92,7 @@ const loginReducer = (state = initialState, action) => {
         error: action.payload,
       };
     case LOGOUT_SUCCESS:
+      localStorage.removeItem(USER_KEY);
       return {
         ...state,
         loggedIn: false,
