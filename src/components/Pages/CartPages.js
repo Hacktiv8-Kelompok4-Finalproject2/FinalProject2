@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateQuantity, checkout } from '../Store/cartReducer';
-import { updateStoreQuantity } from '../Store/productReducer';
+import {
+  updateStoreQuantity,
+  updateSalesQuantity,
+} from '../Store/productReducer';
 import { useNavigate } from 'react-router-dom';
 
 function CartPages() {
@@ -35,12 +38,14 @@ function CartPages() {
     // Update storeQuantity for each item in cart
     cartItems.forEach((item) => {
       const updatedStoreQuantity = item.storeQuantity - item.quantity;
+      const updatedSalesQuantity = item.sales + item.quantity;
       if (updatedStoreQuantity < 0) {
         isAvailable = false;
       } else {
         const isAdmin = true; // Assuming the user is an admin
         console.log(updatedStoreQuantity);
-        dispatch(updateStoreQuantity(item.id, updatedStoreQuantity, isAdmin));
+        dispatch(updateStoreQuantity(item.id, updatedStoreQuantity));
+        dispatch(updateSalesQuantity(item.id, item.quantity));
         console.log(item);
       }
     });

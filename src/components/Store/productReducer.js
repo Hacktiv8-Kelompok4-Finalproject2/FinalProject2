@@ -5,6 +5,7 @@ const FETCH_PRODUCTS_REQUEST = 'FETCH_PRODUCTS_REQUEST';
 const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS';
 const FETCH_PRODUCTS_FAILURE = 'FETCH_PRODUCTS_FAILURE';
 const UPDATE_STORE_QUANTITY = 'UPDATE_STORE_QUANTITY';
+const UPDATE_SALES_QUANTITY = 'UPDATE_SALES_QUANTITY';
 
 // Initial state
 const initialState = {
@@ -38,6 +39,15 @@ const updateStoreQuantity = (itemId, storeQuantity) => {
   return {
     type: UPDATE_STORE_QUANTITY,
     payload: { itemId, storeQuantity },
+  };
+};
+const updateSalesQuantity = (itemId, sales) => {
+  // Save the updated storeQuantity in localStorage
+  localStorage.setItem(`sales_${itemId}`, sales);
+
+  return {
+    type: UPDATE_SALES_QUANTITY,
+    payload: { itemId, sales },
   };
 };
 
@@ -83,6 +93,24 @@ const productReducer = (state = initialState, action) => {
         };
       }
       return state;
+    case UPDATE_SALES_QUANTITY:
+      const updatedSalesIndex = state.products.findIndex(
+        (product) => product.id === action.payload.itemId
+      );
+
+      if (updatedSalesIndex !== -1) {
+        const updatedProducts = [...state.products];
+        updatedProducts[updatedSalesIndex] = {
+          ...updatedProducts[updatedSalesIndex],
+          sales: action.payload.sales,
+        };
+
+        return {
+          ...state,
+          products: updatedProducts,
+        };
+      }
+      return state;
 
     default:
       return state;
@@ -106,6 +134,7 @@ export const fetchProducts = () => {
           ...product,
           storeQuantity:
             parseInt(localStorage.getItem(`storeQuantity_${product.id}`)) || 5,
+          sales: parseInt(localStorage.getItem(`sales_${product.id}`)) || 0,
         }));
         dispatch(fetchProductsSuccess(products));
 
@@ -120,4 +149,4 @@ export const fetchProducts = () => {
   };
 };
 
-export { updateStoreQuantity, productReducer };
+export { updateStoreQuantity, productReducer, updateSalesQuantity };
