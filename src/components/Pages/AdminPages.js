@@ -20,11 +20,11 @@ const AdminPages = () => {
 
   return (
     <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px]">
-      <div className="mt-[8vh] text-center">
-        <h1>Admin Pages</h1>
+      <div className="mt-[8vh] text-center border-2 shadow-md p-4">
+        <h1 className="text-2xl my-3">Admin Pages</h1>
         <table>
           <thead>
-            <tr>
+            <tr className="border-t border-2">
               <th></th>
               <th>Items</th>
               <th>Store Quantity</th>
@@ -34,15 +34,15 @@ const AdminPages = () => {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id}>
-                <td>
+              <tr key={product.id} className="border-y-2 items-center mx-auto">
+                <td className="mx-auto">
                   <img
                     src={product.image}
-                    className="h-[50px]"
+                    className="h-[50px] mx-auto"
                     alt={product.title}
                   />
                 </td>
-                <td>{product.title}</td>
+                <td className="text-left ml-2">{product.title}</td>
                 <td>
                   <input
                     type="number"
@@ -53,6 +53,7 @@ const AdminPages = () => {
                         parseInt(e.target.value)
                       )
                     }
+                    className="text-center border-2 w-[50px]"
                   />
                 </td>
                 <td>{product.sales}</td>
@@ -61,6 +62,7 @@ const AdminPages = () => {
                     onClick={() =>
                       handleUpdateClick(product.id, product.storeQuantity)
                     }
+                    className="mx-2 rounded-md px-2 py-1 bg-blue-500 text-white border-2 transition-all   hover:bg-blue-700"
                   >
                     Update
                   </button>

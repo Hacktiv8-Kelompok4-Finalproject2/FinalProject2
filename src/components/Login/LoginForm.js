@@ -44,29 +44,38 @@ function LoginForm() {
   return (
     <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px]">
       <div className="mt-[8vh] text-center">
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit} className="border-2">
-          <div>
+        <h1 className="text-2xl">Halaman Login</h1>
+        <p>Silahkan login terlebih dahulu</p>
+        <form
+          onSubmit={handleSubmit}
+          className="border-2 p-5 w-[400px] rounded-md shadow-md text-md mt-6"
+        >
+          <div className="flex mt-1 flex-col items-start">
             <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="border-2"
+              className="border-2 w-full"
             />
           </div>
-          <div>
+          <div className="flex mt-1 flex-col items-start">
             <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-2"
+              className="border-2 w-full"
             />
           </div>
-          <button type="submit">Submit</button>
+          <button
+            type="submit"
+            className="mx-2 mt-2 rounded-md px-2 py-1 bg-blue-400 text-white border-2 transition-all hover:bg-white hover:text-blue-400 hover:border-2 hover:border-blue-400"
+          >
+            Masuk
+          </button>
         </form>
         {loginError && (
           <p className=" text-red-500">Incorrect username or password.</p>

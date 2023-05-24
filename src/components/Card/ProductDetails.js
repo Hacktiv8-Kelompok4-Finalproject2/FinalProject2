@@ -33,7 +33,7 @@ const ProductDetails = () => {
       dispatch(
         addToCart({
           id: parseInt(productId),
-          quantity: updatedQuantity + itemQuantity,
+          quantity: updatedQuantity,
         })
       );
     } else {
@@ -50,9 +50,9 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="flex items-center mx-auto w-screen max-w-[1080px]">
-      <div className="mt-[8vh] text-center">
-        <h1>Product Details</h1>
+    <div className="flex items-center mx-auto w-screen max-w-[1080px] ">
+      <div className="mt-[8vh] text-center flex items-center flex-col mx-auto">
+        <h1 className="text-2xl">Product Details</h1>
         <div className="flex items-center">
           <div className="w-[500px] mx-auto">
             <img
@@ -71,9 +71,17 @@ const ProductDetails = () => {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  className=" border-[1px] w-[50px] text-center"
                 />
               </h1>
-              <button onClick={handleUpdateQuantity}>Add to Cart</button>
+              <div className="py-2">
+                <button
+                  onClick={handleUpdateQuantity}
+                  className="px-3 rounded-md py-1 bg-green-500 text-white border-2 transition-all hover:bg-white hover:text-green-500 hover:border-2 hover:border-green-500"
+                >
+                  + Keranjang
+                </button>
+              </div>
             </div>
             <h1 className="font-semibold text-2xl">Product Details</h1>
             <p>{product.description}</p>
