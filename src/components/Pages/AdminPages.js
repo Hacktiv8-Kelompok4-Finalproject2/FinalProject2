@@ -28,6 +28,7 @@ const AdminPages = () => {
               <th></th>
               <th>Items</th>
               <th>Store Quantity</th>
+              <th>Sales</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -54,6 +55,7 @@ const AdminPages = () => {
                     }
                   />
                 </td>
+                <td>{product.sales}</td>
                 <td>
                   <button
                     onClick={() =>

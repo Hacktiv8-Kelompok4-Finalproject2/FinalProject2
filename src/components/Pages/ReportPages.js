@@ -1,35 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ReportPages = () => {
   const products = useSelector((state) => state.productReducer.products);
-  const cartItems = useSelector((state) => state.addToCartReducer.cartItems);
 
-  useEffect(() => {
-    // Any necessary logic or API calls to fetch the checkout data
-  }, []);
+  console.log(products);
 
-  // Calculate the quantity sold and total gross for each product
-  const reportData = products
-    .map((product) => {
-      const quantitySold = cartItems.reduce((total, cartItem) => {
-        if (cartItem.id === product.id) {
-          return total + cartItem.quantity;
-        }
-        return total;
-      }, 0);
-
-      const totalGross = product.price * quantitySold;
-
-      return {
-        id: product.id,
-        name: product.title,
-        price: product.price,
-        quantitySold,
-        totalGross,
-      };
-    })
-    .filter((item) => item.quantitySold > 0); // Filter out items with quantitySold = 0
+  const filteredProducts = products.filter((item) => item.sales > 0);
 
   return (
     <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px]">
@@ -40,17 +17,17 @@ const ReportPages = () => {
             <tr>
               <th>Item Name</th>
               <th>Price</th>
-              <th>Quantity Sold</th>
+              <th>Sales</th>
               <th>Total Gross</th>
             </tr>
           </thead>
           <tbody>
-            {reportData.map((item) => (
+            {filteredProducts.map((item) => (
               <tr key={item.id}>
-                <td>{item.name}</td>
+                <td>{item.title}</td>
                 <td>${item.price.toFixed(2)}</td>
-                <td>{item.quantitySold}</td>
-                <td>${item.totalGross.toFixed(2)}</td>
+                <td>{item.sales}</td>
+                <td>${(item.price * item.sales).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
