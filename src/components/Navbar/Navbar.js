@@ -15,11 +15,11 @@ function Navbar() {
 
   return (
     <div className="mx-auto fixed inset-x-0 z-50 font-semibold font-balto">
-      <div className="bg-[#f1f3f2] w-full flex items-center justify-center mx-auto">
+      <div className="bg-[#fbfefd] border-b-green-500 shadow-md border-b-2 w-full flex items-center justify-center mx-auto">
         <div className="max-w-[1080px] mx-5 flex flex-row items-center  h-[6vh]">
           <nav className="flex flex-row items-center justify-between font-balto">
             <Link to="/" onClick={scrollToTop}>
-              <div className="mx-4">JualAjah!</div>
+              <div className="mx-4 text-green-600">JualAjah!</div>
             </Link>
             {!isAdmin && (
               <Link to="/" onClick={scrollToTop}>
@@ -29,11 +29,13 @@ function Navbar() {
             {isLoggedIn && (
               <>
                 <Link to="/cart" onClick={scrollToTop}>
-                  <div className="mx-4">Cart</div>
+                  <div className="mx-4">Keranjang</div>
                 </Link>
-                <Link to="/logout" onClick={scrollToTop}>
-                  <div className="mx-4">Logout</div>
-                </Link>
+                <div className="bg-gray-400 p-[0.1em] rounded-md text-white hover:bg-gray-700">
+                  <Link to="/logout" onClick={scrollToTop}>
+                    <div className="mx-4 ">Keluar</div>
+                  </Link>
+                </div>
               </>
             )}
             {isAdmin && (
@@ -44,16 +46,20 @@ function Navbar() {
                 <Link to="/report" onClick={scrollToTop}>
                   <div className="mx-4">Rekap Penjualan</div>
                 </Link>
-                <Link to="/logout" onClick={scrollToTop}>
-                  <div className="mx-4">Logout</div>
-                </Link>
+                <div className="bg-gray-400 p-[0.1em] rounded-md text-white hover:bg-gray-700">
+                  <Link to="/logout" onClick={scrollToTop}>
+                    <div className="mx-4 ">Keluar</div>
+                  </Link>
+                </div>
               </>
             )}
             {!isAdmin && !isLoggedIn && (
               <>
-                <Link to="/login" onClick={scrollToTop}>
-                  <div className="mx-4">Login</div>
-                </Link>
+                <div className="bg-gray-400 p-[0.1em] rounded-md text-white hover:bg-gray-700">
+                  <Link to="/login" onClick={scrollToTop}>
+                    <div className="mx-4 ">Masuk</div>
+                  </Link>
+                </div>
               </>
             )}
           </nav>

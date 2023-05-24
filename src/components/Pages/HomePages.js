@@ -19,9 +19,9 @@ function HomePages() {
   };
 
   return (
-    <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px]">
-      <div className="mt-[8vh] text-center">
-        <h1>Daftar Produk</h1>
+    <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px] ">
+      <div className="mt-[6vh] text-center">
+        <h1 className="text-2xl p-3">Daftar Produk</h1>
         <div className="grid grid-cols-5 gap-10 w-screen max-w-[1080px]">
           {products.map((product) => (
             <Card

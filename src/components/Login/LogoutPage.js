@@ -14,10 +14,16 @@ function LogoutPage() {
 
   return (
     <div className="flex items-center flex-col mx-auto w-screen max-w-[1080px]">
-      <div className="mt-[8vh] text-center">
-        <h1>Logout</h1>
-        <p>Are you sure you want to log out?</p>
-        <button onClick={handleLogout}>Logout</button>
+      <div className="mt-[8vh] text-center shadow-md p-2 border-2 w-[350px] flex h-[200px] flex-col my-auto items-center rounded-md">
+        <div className="mt-[60px]">
+          <p className=" my-auto">Apakah anda yakin ingin keluar?</p>
+          <button
+            onClick={handleLogout}
+            className="mx-2 mt-2 rounded-md px-2 py-1  text-white  transition-all bg-red-500  border-2 hover:bg-red-700 "
+          >
+            Keluar
+          </button>
+        </div>
       </div>
     </div>
   );
